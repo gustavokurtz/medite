@@ -1,5 +1,7 @@
-// components/InstrucoesMeditacao.tsx
 "use client";
+
+import { ArrowDown, ArrowUp, Pause } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
 
 interface PropsInstrucoesMeditacao {
   tempoRestante: number;
@@ -8,10 +10,6 @@ interface PropsInstrucoesMeditacao {
 export default function InstrucoesMeditacao({ tempoRestante }: PropsInstrucoesMeditacao) {
   // Função para determinar a instrução atual com base no tempo restante
   const obterInstrucaoAtual = (): string => {
-    // Calcula o tempo no ciclo de 16 segundos
-    // Como estamos contando regressivamente de 300 até 0, precisamos ajustar a lógica
-    // para garantir que comece com "Respire fundo" quando o tempo é 300
-    
     // Inverte a contagem para que seja crescente a partir do início da meditação
     const tempoDecorrido = 300 - tempoRestante;
     // Obtém a posição no ciclo de 16 segundos
@@ -19,7 +17,7 @@ export default function InstrucoesMeditacao({ tempoRestante }: PropsInstrucoesMe
     
     // Determina a instrução baseada na posição no ciclo de 16 segundos
     if (posicaoNoCiclo < 4) {
-      return "Respire fundo";
+      return "Inspire o ar";
     } else if (posicaoNoCiclo < 8) {
       return "Segure o ar";
     } else if (posicaoNoCiclo < 12) {
@@ -30,34 +28,34 @@ export default function InstrucoesMeditacao({ tempoRestante }: PropsInstrucoesMe
   };
 
   // Seleciona o ícone e cor de fundo com base na instrução atual
-  const obterEstiloInstrucao = (): { icone: string; corFundo: string } => {
+  const obterEstiloInstrucao = () => {
     const instrucao = obterInstrucaoAtual();
     
     switch (instrucao) {
-      case "Respire fundo":
-        return { 
-          icone: "↓", 
-          corFundo: "bg-blue-100 text-blue-700" 
+      case "Inspire o ar":
+        return {
+          icone: <ArrowDown className="h-6 w-6" />,
+          corFundo: "bg-indigo-800/30 border-indigo-700/30"
         };
       case "Segure o ar":
-        return { 
-          icone: "⏸", 
-          corFundo: "bg-green-100 text-green-700" 
+        return {
+          icone: <Pause className="h-6 w-6" />,
+          corFundo: "bg-indigo-700/20 border-indigo-600/30"
         };
       case "Expire o ar":
-        return { 
-          icone: "↑", 
-          corFundo: "bg-purple-100 text-purple-700" 
+        return {
+          icone: <ArrowUp className="h-6 w-6" />,
+          corFundo: "bg-teal-800/30 border-teal-700/30"
         };
       case "Fique sem ar":
-        return { 
-          icone: "⏸", 
-          corFundo: "bg-amber-100 text-amber-700" 
+        return {
+          icone: <Pause className="h-6 w-6" />,
+          corFundo: "bg-indigo-900/20 border-indigo-800/30"
         };
       default:
-        return { 
-          icone: "?", 
-          corFundo: "bg-gray-100 text-gray-700" 
+        return {
+          icone: <Pause className="h-6 w-6" />,
+          corFundo: "bg-indigo-800/30 border-indigo-700/30"
         };
     }
   };
@@ -65,9 +63,15 @@ export default function InstrucoesMeditacao({ tempoRestante }: PropsInstrucoesMe
   const { icone, corFundo } = obterEstiloInstrucao();
 
   return (
-    <div className={`p-4 rounded-lg ${corFundo} flex items-center justify-center transition-all duration-500`}>
-      <div className="text-3xl mr-3">{icone}</div>
-      <span className="text-xl font-medium">{obterInstrucaoAtual()}</span>
-    </div>
+    <Card className={`border border-opacity-20 shadow-md transition-all duration-700 ${corFundo}`}>
+      <CardContent className="flex items-center justify-center p-6 space-x-4">
+        <div className="text-[#EAEAEA]">
+          {icone}
+        </div>
+        <span className="text-xl font-medium text-[#EAEAEA]">
+          {obterInstrucaoAtual()}
+        </span>
+      </CardContent>
+    </Card>
   );
 }

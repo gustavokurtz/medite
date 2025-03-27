@@ -1,0 +1,87 @@
+/* Animações para meditação */
+
+/* Animação de respiração */
+@keyframes breathingIn {
+    from { transform: scale(0.95); }
+    to { transform: scale(1.05); }
+  }
+  
+  @keyframes breathingOut {
+    from { transform: scale(1.05); }
+    to { transform: scale(0.95); }
+  }
+  
+  @keyframes breathingHold {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
+  }
+  
+  .breathing-in {
+    animation: breathingIn 4s ease-in-out;
+  }
+  
+  .breathing-out {
+    animation: breathingOut 4s ease-in-out;
+  }
+  
+  .breathing-hold {
+    animation: breathingHold 2s ease-in-out infinite alternate;
+  }
+  
+  /* Efeitos de hover */
+  .hover-glow:hover {
+    box-shadow: 0 0 15px rgba(93, 95, 239, 0.3);
+  }
+  
+  .active-scale:active {
+    transform: scale(0.98);
+  }
+  
+  /* Animações de transição */
+  .fade-in {
+    animation: fadeIn 0.5s ease-in;
+  }
+  
+  .slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  /* Responsividade para diferentes tamanhos de tela */
+  @media (max-width: 640px) {
+    .meditation-card {
+      margin: 0;
+      border-radius: 16px;
+    }
+    
+    .timer-circle {
+      width: 160px !important;
+      height: 160px !important;
+    }
+    
+    .control-buttons {
+      padding: 0.5rem;
+      flex-direction: column;
+    }
+    
+    .control-buttons button {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  }
+  
+  /* Estilos de foco para acessibilidade */
+  button:focus, 
+  input:focus {
+    outline: 2px solid #5D5FEF;
+    outline-offset: 2px;
+  }

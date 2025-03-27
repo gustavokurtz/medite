@@ -1,91 +1,111 @@
-// app/page.tsx
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { Play, Pause, RefreshCw, Brain, Activity, Lightbulb, Cpu, Atom } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import Temporizador from '../components/Temporizador';
 import InstrucoesMeditacao from '../components/InstrucoesMeditacao';
+import AudioPlayer from '../components/AudioPlayer';
 
 export default function PaginaInicial() {
-  const [tempoRestante, setTempoRestante] = useState<number>(300); // 5 minutos em segundos
-  const [emAndamento, setEmAndamento] = useState<boolean>(false);
-  const [pausado, setPausado] = useState<boolean>(false);
-
+  const [tempoRestante, setTempoRestante] = useState(300); // 5 minutos em segundos
+  const [emAndamento, setEmAndamento] = useState(false);
+  const [pausado, setPausado] = useState(false);
+  
   const comecar = () => {
     setEmAndamento(true);
     setPausado(false);
   };
-
+  
   const pausar = () => {
     setPausado(true);
   };
-
+  
   const continuar = () => {
     setPausado(false);
   };
-
+  
   const reiniciar = () => {
     setTempoRestante(300);
     setEmAndamento(false);
     setPausado(false);
   };
-
+  
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-100 flex flex-col justify-center items-center p-6">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-        <h1 className="text-3xl font-bold text-center text-indigo-700 mb-6">Meditação</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#121212] via-[#1a1a40] to-[#121212] flex flex-col justify-center items-center p-4 md:p-6">
+      <Card className="w-full max-w-md shadow-lg border-none bg-[#1F1F1F]">
+      <CardHeader className="border-b border-[#EAEAEA]/10">
+      <div className="flex justify-center gap-4">
+  <Brain className="w-10 h-10 text-[#5D5FEF] animate-float" />
+  <Activity className="w-10 h-10 text-[#5D5FEF] animate-float delay-[100ms]" />
+  <Lightbulb className="w-10 h-10 text-[#5D5FEF] animate-float delay-[200ms]" />
+  <Cpu className="w-10 h-10 text-[#5D5FEF] animate-float delay-[300ms]" />
+  <Atom className="w-10 h-10 text-[#5D5FEF] animate-float delay-[400ms]" />
+</div>
+</CardHeader>
         
-        <div className="mb-8">
-          <Temporizador 
-            tempoRestante={tempoRestante} 
-            setTempoRestante={setTempoRestante}
-            emAndamento={emAndamento}
-            pausado={pausado}
-            reiniciar={reiniciar}
-          />
-        </div>
-        
-        {emAndamento && (
-          <div className="mb-8">
-            <InstrucoesMeditacao tempoRestante={tempoRestante} />
+        <CardContent className="pt-6 pb-2 space-y-6">
+          <div className="flex justify-center">
+            <Temporizador
+              tempoRestante={tempoRestante}
+              setTempoRestante={setTempoRestante}
+              emAndamento={emAndamento}
+              pausado={pausado}
+              reiniciar={reiniciar}
+            />
           </div>
-        )}
+          
+          {emAndamento && (
+            <div className="mt-6 slide-up">
+              <InstrucoesMeditacao tempoRestante={tempoRestante} />
+            </div>
+          )}
+        </CardContent>
         
-        <div className="flex flex-wrap justify-center gap-3">
+        <CardFooter className="flex flex-wrap justify-center gap-3 pt-2 pb-6">
           {!emAndamento ? (
-            <button 
-              onClick={comecar} 
-              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            <Button
+              onClick={comecar}
+              size="lg"
+              className="bg-[#5D5FEF] hover:bg-[#5D5FEF]/90 text-[#121212] font-medium"
             >
-              Começar
-            </button>
+              <Play className="mr-2 h-5 w-5" /> Começar
+            </Button>
           ) : !pausado ? (
-            <button 
-              onClick={pausar} 
-              className="px-6 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
+            <Button
+              onClick={pausar}
+              size="lg"
+              className="bg-[#5D5FEF] hover:bg-[#5D5FEF]/90 text-[#EAEAEA] font-medium"
             >
-              Pausar
-            </button>
+              <Pause className="mr-2 h-5 w-5" /> Pausar
+            </Button>
           ) : (
-            <button 
-              onClick={continuar} 
-              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+            <Button
+              onClick={continuar}
+              size="lg"
+              className="bg-[#5D5FEF] hover:bg-[#5D5FEF]/90 text-[#121212] font-medium"
             >
-              Continuar
-            </button>
+              <Play className="mr-2 h-5 w-5" /> Continuar
+            </Button>
           )}
           
-          <button 
-            onClick={reiniciar} 
-            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          <Button
+            onClick={reiniciar}
+            size="lg"
+            variant="outline"
+            className="border border-[#5D5FEF]/50 hover:bg-[#5D5FEF]/10 text-[#EAEAEA]"
           >
-            Reiniciar
-          </button>
-        </div>
-      </div>
+            <RefreshCw className="mr-2 h-5 w-5" /> Reiniciar
+          </Button>
+        </CardFooter>
+      </Card>
       
-      <p className="mt-8 text-sm text-gray-500 text-center w-full max-w-md">
+      <p className="mt-6 text-sm text-[#888888] text-center w-full max-w-md">
         Meditação respiratória para ajudar na concentração e relaxamento.
       </p>
+      
+      <AudioPlayer />
     </div>
   );
 }

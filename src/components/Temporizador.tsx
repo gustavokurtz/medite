@@ -1,7 +1,8 @@
-// components/Temporizador.tsx
 "use client";
 
 import { useEffect } from 'react';
+import { Clock } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
 
 interface PropsTemporizador {
   tempoRestante: number;
@@ -11,10 +12,10 @@ interface PropsTemporizador {
   reiniciar: () => void;
 }
 
-export default function Temporizador({ 
-  tempoRestante, 
-  setTempoRestante, 
-  emAndamento, 
+export default function Temporizador({
+  tempoRestante,
+  setTempoRestante,
+  emAndamento,
   pausado,
   reiniciar
 }: PropsTemporizador) {
@@ -49,44 +50,58 @@ export default function Temporizador({
     return `${minutos}:${segundosRestantes < 10 ? '0' : ''}${segundosRestantes}`;
   };
   
-  // Calcula a porcentagem de progresso para a barra circular
-  const calcularProgresso = (): number => {
+  // Calcula a porcentagem de progresso
+  const calcularPorcentagem = (): number => {
     return ((300 - tempoRestante) / 300) * 100;
   };
   
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-48 h-48">
-        {/* Círculo de fundo */}
-        <div className="absolute w-full h-full rounded-full border-8 border-gray-200"></div>
-        
-        {/* Círculo de progresso */}
-        <svg className="absolute w-full h-full" viewBox="0 0 100 100">
-          <circle
-            cx="50"
-            cy="50"
-            r="46"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="8"
-            strokeDasharray={`${calcularProgresso() * 2.89} 289`}
-            strokeLinecap="round"
-            className="text-indigo-600 transform -rotate-90 origin-center"
-          />
-        </svg>
-        
-        {/* Tempo restante */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-4xl font-bold text-indigo-700">
-            {formatarTempo(tempoRestante)}
-          </span>
-        </div>
-      </div>
+      <Card className="border-none shadow-none bg-transparent">
+        <CardContent className="flex flex-col items-center p-6">
+          <div className="timer-circle relative w-48 h-48 mb-4 flex items-center justify-center">
+            {/* Círculo de progresso SVG customizado */}
+            <div className="absolute w-full h-full">
+              <svg className="w-full h-full" viewBox="0 0 100 100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  stroke="#292929"
+                  strokeWidth="6"
+                />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  stroke="#5D5FEF"
+                  strokeWidth="6"
+                  strokeDasharray={`${calcularPorcentagem() * 2.83} 283`}
+                  strokeLinecap="round"
+                  className="transform -rotate-90 origin-center transition-all duration-300"
+                />
+              </svg>
+            </div>
+            
+            {/* Tempo restante */}
+            <div className="flex flex-col items-center justify-center z-10">
+              <Clock className="h-6 w-6 mb-2 text-[#5D5FEF]" />
+              <span className="text-4xl font-bold text-[#EAEAEA]">
+                {formatarTempo(tempoRestante)}
+              </span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
       
       {tempoRestante === 0 && (
-        <p className="mt-4 text-lg font-medium text-green-600">
-          Meditação concluída!
-        </p>
+        <div className="mt-4 p-4 rounded-lg bg-[#00C2A8]/20 border border-[#00C2A8] text-center fade-in">
+          <p className="text-lg font-medium text-[#EAEAEA]">
+            Meditação concluída!
+          </p>
+        </div>
       )}
     </div>
   );
